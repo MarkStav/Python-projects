@@ -1,0 +1,23 @@
+import csv
+
+
+def csv_dict_reader(file_obj):
+    """
+    Read a CSV file using csv.DictReader
+    """
+    itogo = 0
+    reader = csv.DictReader(file_obj, delimiter=',')
+    r = int(input("Введите ставку дисконтирования в процентном соотношении(норма дохода):"))
+    for line in reader:
+        CF = float(line["pay"])
+        i = float(line["month"])
+        DCF = round(CF / ((1 + (r / 100)) ** i))
+        print("Месяц " + line["month"] + ": " + "DCF = " + str(DCF))
+        itogo+=DCF
+        print(str(itogo))
+
+
+
+if __name__ == "__main__":
+    with open("/Users/markgurianov/Downloads/Pokupka - Лист1.csv") as f_obj:
+        csv_dict_reader(f_obj)
