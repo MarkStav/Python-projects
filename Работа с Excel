@@ -1,0 +1,51 @@
+import xlrd
+import xlwt
+from openpyxl import load_workbook
+from openpyxl.utils import get_column_letter, column_index_from_string
+# from xlwt import Worksheet
+
+file_obj = input('Введите путь к файлу: ') #/Users/markgurianov/Downloads/TMRCA.xlsx
+# открываем файл
+workbook = load_workbook(filename=file_obj)
+
+# выбираем активный лист
+sheet = workbook.worksheets[0]
+# получаем значениея в первом столбце
+for row in sheet.rows:
+    print(row[0].value)
+# получаем имя листа
+print(workbook.get_sheet_names())
+# получаем значение определенной ячейки
+print(sheet['A1'].value)
+print(sheet.cell(row=1, column=1).value)
+# выбираем ячейку
+c = sheet['B2']
+# возвращает количество строк
+print(str(c.row))
+# возвращает количество столбцов
+print(str(c.column))
+# возвращает координаты ячейки
+print(c.coordinate)
+# распечатает все значения в столбце(2)
+for i in range(1, 4):
+     print(sheet.cell(row=i, column=2).value)
+# распечатает все значения в строке (2)
+for i in range(1, 4):
+     print(sheet.cell(row=2, column=i).value)
+# возвращает литер столбца (A, B, C...)
+print(get_column_letter(1))
+# возвращает индекс литера
+print(column_index_from_string('A'))
+# вывод знвчений указанного отрезка
+for cellObj in sheet['A1':'C3']:
+      for cell in cellObj:
+              print(cell.coordinate, cell.value)
+      print('--- END ---')
+# возвращает количество строк
+print(sheet.max_row)
+# возвращает количество столбцов
+print(sheet.max_column)
+# записываем в ячейку R113 - 0
+sheet['R112'] = 0
+# сохраняем изменения (в файле, а не в листе!!!)
+workbook.save(file_obj)
