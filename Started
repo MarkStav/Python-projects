@@ -1,9 +1,11 @@
-import operator
+import operator, copy, itertools, time, locale, calendar
 
 
 english_alphabet = (tuple(list('qwertyuiopasdfghjklzxcvbnm')))
 russian_alphabet = (tuple(list('йцукенгшщзхъфывапролджэёячсмитьбю')))
 # Сортировка словаря (параметры: словарь, индекс, сортировка(убыв/возр)
+
+
 def dict_sorted(dictionary, index, bool_reverse):
     return dict(sorted(dictionary.items(), key=operator.itemgetter(index), reverse=bool_reverse))
 
@@ -53,7 +55,21 @@ def check(stroka):
         return answer, stroka
 
 
+"""--------------------------------------------------------------------------"""
+
+
+def check_2(stroka):
+    if isinstance(stroka, int):
+        chislo = int(stroka)
+        answer = 'int'
+        return answer, chislo
+
+    else:
+        answer = 'str'
+        return answer, stroka
+
 print(check('m12'))
+print(check_2('m12'))
 
 '''
 S.islower() - Состоит ли строка из символов в нижнем регистре
@@ -114,25 +130,150 @@ d4 = dict.fromkeys(['a', 'b'], 100)
 
 '''
 dict.clear() - очищает словарь.
-
 dict.copy() - возвращает копию словаря.
-
 classmethod dict.fromkeys(seq[, value]) - создает словарь с ключами из seq и значением value (по умолчанию None).
-
-dict.get(key[, default]) - возвращает значение ключа, но если его нет, не бросает исключение, а возвращает default (по умолчанию None).
-
+dict.get('key') - возвращает значение ключа, но если его нет, не бросает исключение, а возвращает default (по умолчанию None).
 dict.items() - возвращает пары (ключ, значение).
-
 dict.keys() - возвращает ключи в словаре.
-
 dict.pop(key[, default]) - удаляет ключ и возвращает значение. Если ключа нет, возвращает default (по умолчанию бросает исключение).
-
 dict.popitem() - удаляет и возвращает пару (ключ, значение). Если словарь пуст, бросает исключение KeyError. Помните, что словари неупорядочены.
-
 dict.setdefault(key[, default]) - возвращает значение ключа, но если его нет, не бросает исключение, а создает ключ с значением default (по умолчанию None).
-
 dict.update([other]) - обновляет словарь, добавляя пары (ключ, значение) из other. Существующие ключи перезаписываются. Возвращает None (не новый словарь!).
-
 dict.values() - возвращает значения в словаре.
 '''
 
+
+""" next(i) возвращает элемент """
+num_list = [1, 2, 3, 4, 5]
+iteration = iter(num_list)
+print(str(iteration) + ':  ' + str(next(iteration)))
+print(str(iteration) + ':  ' + str(next(iteration)))
+
+
+""" next(i) возвращает ключ """
+num_dict = {"x": 1, "y": 2}
+iteration = iter(num_dict)
+print(str(iteration) + ':  ' + str(next(iteration)))
+print(str(iteration) + ':  ' + str(next(iteration)))
+
+
+"""Удаление переменных"""
+xz = 10
+del xz
+kek, keksik = 10, 20
+del kek, keksik
+
+
+"""Возвращает 2 значения x / y и x % y"""
+print(divmod(6, 3))
+
+
+"""Создание списка из строки"""
+s = "Hi, fucking, world!"
+print(s.split(', '))
+s1 = "Hi fucking world!"
+print(s1.split(' '))
+
+
+"""Замена подстроки на другую"""
+hi = 'Hi World!'
+print(hi.replace('World', 'Mark'))
+
+
+"""Копия списка"""
+spisok_1 = ['s', 'p', 'i', 's', 'o', 'k']
+spisok_2 = copy.deepcopy(spisok_1)
+print(spisok_2)
+
+
+"""map, zip, filter, reduce"""
+numpers1 = [1, 2, 3, 4]
+float1 = ['12.3', 5.0, '3.4', 2]
+"""Применяет одну функцию ко всем элементам списка"""
+print(list(map(float, numpers1)))
+"""Преобразует списки в картежи"""
+print(list(zip(float1, numpers1)))
+print(list(filter(None, [1, 2, 8, 9, None])))
+"""Фильтрация списка на пустые значения"""
+
+
+"""модуль itertools"""
+for i in itertools.count(1, 5):
+    if i > 20: break
+# Если оставить функцию без параметра, числа будут увеличиваться до бесконечности
+    print(i, end=' ')
+"""1, 6, 11, 16"""
+
+for i in itertools.cycle("ABCDEFGHIJK"):
+    """Возвращает значение из строки"""
+    if i == 'J': break
+    print(i, end=' ')
+print()
+
+
+"""модуль time"""
+days = ['понедельник', 'вторник', 'среда', 'четверг', 'пятница', 'суббота', 'воскресенье']
+month = ['', 'января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа',
+         'сентября', 'октября', 'ноября', 'декабря']
+time_1 = time.localtime()
+print(str(time_1.tm_hour) + ':' + str(time_1.tm_min) + ':' + str(time_1.tm_sec))
+print('День: ' + str(time_1.tm_mday))
+print('Месяц: ' + str(time_1.tm_mon))
+print('Год: ' + str(time_1.tm_year))
+print('Зона: ' + str(time_1.tm_zone))
+print('Название дня недели: ' + days[time_1.tm_wday])
+print('Название месяца: ' + month[time_1.tm_mon])
+print(time.strftime("%d.%m.%Y"))
+print(time.strftime("%H:%M:%S"))
+print(time.strptime(time.asctime(time.localtime())))
+
+
+"""Вывод текущей даты"""
+s = "Сегодня: \n%A %d %b %Y %H:%M:%S\n%d.%m.%Y"
+print(time.strftime(s))
+
+'''Засыпание скрипта'''
+time.sleep(1)
+
+
+"""Вывод календаря"""
+print(calendar.month(time_1.tm_year, time_1.tm_mon))
+
+
+"""Работа кода"""
+start_time = time.time()
+print(get_extension('t.txt'))
+a = str(time.time() - start_time)
+a = float(a[:7])
+print('Time of working script: {:.4f} seconds'.format(a))
+
+
+"""lamda"""
+summa = lambda x, y: x + y
+print(summa(2, 10))
+
+
+""" Примеры импорта модулей """
+# from math import pi, floor as f
+# from math import (pi, floor, sin, cos)
+
+
+"""Обработка исключений"""
+try:
+    x = 1 / 0
+except ZeroDivisionError:
+    print("Обработали деление на 0")
+    x = 0
+print(x)
+
+
+"""____________________________________"""
+try:
+    x = 1 / 0
+except (NameError, IndexError, ZeroDivisionError):
+    x = 0
+print(x)
+
+"""Конструкция  with ... as ... """
+with open("test.txt", 'a', encoding="utf-8") as f:
+    f.close()
